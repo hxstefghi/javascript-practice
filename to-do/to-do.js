@@ -3,8 +3,9 @@ let taskInput = document.getElementById("taskInput");
 let taskBtn = document.getElementById("addTaskBtn");
 let error = document.getElementById("error");
 let alphabetBtn = document.getElementById("alphabetBtn");
+let clearTaskBtn = document.getElementById("clearTaskBtn");
 
-const lists = [];
+let lists = [];
 
 taskBtn.addEventListener("click", addTask);
 taskInput.addEventListener("keydown", function (event) {
@@ -13,6 +14,9 @@ taskInput.addEventListener("keydown", function (event) {
   }
 });
 alphabetBtn.addEventListener("click", sortAlphabetically);
+clearTaskBtn.addEventListener("click", clearTask);
+
+loadTasks();
 
 function addTask() {
   let value = taskInput.value.trim();
@@ -27,6 +31,7 @@ function addTask() {
   });
 
   displayTask();
+  saveTask();
 
   // to clear the input after hitting the add button
   taskInput.value = "";
@@ -65,5 +70,22 @@ function sortAlphabetically() {
       return -1;
     }
   });
+  displayTask();
+}
+
+function clearTask() {
+  lists = [];
+  saveTask();
+  displayTask();
+}
+
+function saveTask() {
+  return localStorage.setItem("tasks", JSON.stringify(lists));
+}
+
+function loadTasks() {
+  let tasks = localStorage.getItem("tasks");
+  let value = JSON.parse(tasks);
+  lists = value;
   displayTask();
 }
