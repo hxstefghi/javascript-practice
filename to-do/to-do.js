@@ -2,6 +2,7 @@ let display = document.getElementById("display");
 let taskInput = document.getElementById("taskInput");
 let taskBtn = document.getElementById("addTaskBtn");
 let error = document.getElementById("error");
+let alphabetBtn = document.getElementById("alphabetBtn");
 
 const lists = [];
 
@@ -11,6 +12,7 @@ taskInput.addEventListener("keydown", function (event) {
     addTask();
   }
 });
+alphabetBtn.addEventListener("click", sortAlphabetically);
 
 function addTask() {
   let value = taskInput.value.trim();
@@ -55,4 +57,13 @@ function displayError(el, message) {
 
 function clearError(el) {
   return (el.innerHTML = "");
+}
+
+function sortAlphabetically() {
+  lists.sort(function (a, b) {
+    if (a.task < b.task) {
+      return -1;
+    }
+  });
+  displayTask();
 }
