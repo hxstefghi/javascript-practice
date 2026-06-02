@@ -15,6 +15,17 @@ taskInput.addEventListener("keydown", function (event) {
 });
 alphabetBtn.addEventListener("click", sortAlphabetically);
 clearTaskBtn.addEventListener("click", clearTask);
+display.addEventListener("click", function (event) {
+  console.log(event.target);
+
+  if (event.target.tagName === "LI") {
+    let index = event.target.dataset.index;
+
+    lists[index].completed = !lists[index].completed;
+    saveTask();
+    displayTask();
+  }
+});
 
 loadTasks();
 
@@ -42,7 +53,13 @@ function addTask() {
 function displayTask() {
   let html = "";
   for (let i = 0; i < lists.length; i++) {
-    html += `<li>${lists[i].task}<button onclick="deleteTask(${i})">delete</button></li>`;
+    if (lists[i].completed) {
+      html += `<li class="line-through" data-index=${i}>${lists[i].task}<button onclick="deleteTask(${i})">delete</button></li>`;
+    }
+
+    if (!lists[i].completed) {
+      html += `<li data-index=${i}>${lists[i].task}<button onclick="deleteTask(${i})">delete</button></li>`;
+    }
   }
 
   html += "<ul>";
@@ -54,6 +71,7 @@ function deleteTask(index) {
   lists.splice(index, 1);
 
   displayTask();
+  saveTask();
 }
 
 function displayError(el, message) {
