@@ -1,0 +1,60 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+.container {
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.wrapper {
+  background: black;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.row {
+  margin: 12px 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  max-width: 400px;
+  gap: 8px;
+}
+
+.btn {
+  padding: 12px;
+  border-radius: 999px;
+  text-align: center;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: gray;
+  color: black;
+}
+
+.btn-secondary {
+  background-color: rgb(48, 45, 45);
+  color: white;
+}
+
+.btn-tertiary {
+  background-color: orange;
+  color: white;
+}
+
+#display {
+  margin: 12px 0;
+  padding: 8px;
+  color: white;
+  text-align: right;
+  font-weight: 700;
+  font-size: 2rem;
+}
