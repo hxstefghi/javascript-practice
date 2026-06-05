@@ -126,5 +126,5 @@ function displayResult() {
   result = eval(expression).toString();
 
   display.innerText = result;
-  expression = "";
+  expression = result;
 }
