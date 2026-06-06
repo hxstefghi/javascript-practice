@@ -27,6 +27,9 @@ let equalBtn = document.getElementById("equal-btn");
 
 let expression = "";
 let validKeys = "1234567890+-*/";
+let justCalculated = false;
+let numbers = "1234567890";
+let operators = "+-*/";
 
 calcBtn.forEach((btn) => {
   let value = btn.innerText;
@@ -58,9 +61,25 @@ calcBtn.forEach((btn) => {
 });
 
 window.addEventListener("keydown", (event) => {
-  if (validKeys.includes(event.key)) {
-    expression += event.key;
-    display.innerText = expression;
+  if (justCalculated) {
+    if (numbers.includes(event.key)) {
+      expression = event.key;
+      display.innerText = expression;
+      justCalculated = false;
+      return;
+    }
+
+    if (operators.includes(event.key)) {
+      expression += event.key;
+      display.innerText = expression;
+      justCalculated = false;
+      return;
+    }
+  } else {
+    if (validKeys.includes(event.key)) {
+      expression += event.key;
+      display.innerText = expression;
+    }
   }
 
   // if ("+-*/".includes(event.key)) {
@@ -120,11 +139,13 @@ function displayResult() {
   if (expression.includes("/")) {
     result = eval(expression).toFixed(2);
     display.innerText = result;
+    justCalculated = true;
     return;
   }
 
   result = eval(expression).toString();
 
   display.innerText = result;
+  justCalculated = true;
   expression = result;
 }
