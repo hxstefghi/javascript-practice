@@ -1,30 +1,6 @@
 let display = document.getElementById("display");
 let calcBtn = document.querySelectorAll(".btn");
 
-let clearBtn = document.getElementById("ac-btn");
-let deleteBtn = document.getElementById("del-btn");
-let percentBtn = document.getElementById("percent-btn");
-let divideBtn = document.getElementById("divide-btn");
-
-let sevenBtn = document.getElementById("seven-btn");
-let eightBtn = document.getElementById("eight-btn");
-let nineBtn = document.getElementById("nine-btn");
-let multiplyBtn = document.getElementById("multiply-btn");
-
-let fourBtn = document.getElementById("four-btn");
-let fiveBtn = document.getElementById("five-btn");
-let sixBtn = document.getElementById("six-btn");
-let minusBtn = document.getElementById("minus-btn");
-
-let oneBtn = document.getElementById("one-btn");
-let twoBtn = document.getElementById("two-btn");
-let threeBtn = document.getElementById("three-btn");
-let plusBtn = document.getElementById("plus-btn");
-
-let zeroBtn = document.getElementById("zero-btn");
-let decimalBtn = document.getElementById("decimal-btn");
-let equalBtn = document.getElementById("equal-btn");
-
 let expression = "";
 let validKeys = "1234567890+-*/";
 let justCalculated = false;
@@ -55,32 +31,12 @@ calcBtn.forEach((btn) => {
       return;
     }
 
-    expression += value;
-    display.innerText = expression;
+    handleInput(value);
   });
 });
 
 window.addEventListener("keydown", (event) => {
-  if (justCalculated) {
-    if (numbers.includes(event.key)) {
-      expression = event.key;
-      display.innerText = expression;
-      justCalculated = false;
-      return;
-    }
-
-    if (operators.includes(event.key)) {
-      expression += event.key;
-      display.innerText = expression;
-      justCalculated = false;
-      return;
-    }
-  } else {
-    if (validKeys.includes(event.key)) {
-      expression += event.key;
-      display.innerText = expression;
-    }
-  }
+  handleInput(event.key);
 
   // if ("+-*/".includes(event.key)) {
   //   operator = event.key;
@@ -127,12 +83,6 @@ window.addEventListener("keydown", (event) => {
   }
 });
 
-function clearDisplay() {
-  firstNumber = "";
-  operator = "";
-  secondNumber = "";
-}
-
 function displayResult() {
   let result = "";
 
@@ -140,6 +90,7 @@ function displayResult() {
     result = eval(expression).toFixed(2);
     display.innerText = result;
     justCalculated = true;
+    expression = result;
     return;
   }
 
@@ -148,4 +99,27 @@ function displayResult() {
   display.innerText = result;
   justCalculated = true;
   expression = result;
+}
+
+function handleInput(value) {
+  if (justCalculated) {
+    if (numbers.includes(value)) {
+      expression = value;
+      display.innerText = expression;
+      justCalculated = false;
+      return;
+    }
+
+    if (operators.includes(value)) {
+      expression += value;
+      display.innerText = expression;
+      justCalculated = false;
+      return;
+    }
+  } else {
+    if (validKeys.includes(value)) {
+      expression += value;
+      display.innerText = expression;
+    }
+  }
 }
