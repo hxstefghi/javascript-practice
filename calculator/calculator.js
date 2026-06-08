@@ -15,21 +15,9 @@ calcBtn.forEach((btn) => {
       return;
     }
 
-    if (value === "AC") {
-      expression = "";
-      display.innerText = 0;
-      return;
-    }
+    clearExpression(value);
 
-    if (value === "DEL") {
-      expression = expression.slice(0, -1);
-      display.innerText = expression;
-
-      if (display.innerText === "") {
-        display.innerText = 0;
-      }
-      return;
-    }
+    deleteLastCharacter(value);
 
     handleInput(value);
   });
@@ -38,47 +26,9 @@ calcBtn.forEach((btn) => {
 window.addEventListener("keydown", (event) => {
   handleInput(event.key);
 
-  // if ("+-*/".includes(event.key)) {
-  //   operator = event.key;
-  // }
-
-  // display.innerText = firstNumber + " " + operator + " " + secondNumber;
-
-  if (event.key === "Backspace") {
-    expression = expression.slice(0, -1);
-    display.innerText = expression;
-
-    if (display.innerText === "") {
-      display.innerText = 0;
-    }
-  }
+  deleteLastCharacter(event.key);
 
   if (event.key === "Enter" || event.key === "=") {
-    // let num1 = Number(firstNumber);
-    // let num2 = Number(secondNumber);
-
-    // result = "";
-
-    // if (operator === "+") {
-    //   result = num1 + num2;
-    // }
-
-    // if (operator === "-") {
-    //   result = num1 - num2;
-    // }
-
-    // if (operator === "*") {
-    //   result = num1 * num2;
-    // }
-
-    // if (operator === "/") {
-    //   twoDecimal = num1 / num2;
-    //   result = twoDecimal.toFixed(2);
-    // }
-
-    // clearDisplay();
-    // display.innerText = result;
-
     displayResult();
   }
 });
@@ -94,11 +44,16 @@ function displayResult() {
     return;
   }
 
-  result = eval(expression).toString();
-
-  display.innerText = result;
-  justCalculated = true;
-  expression = result;
+  try {
+    result = eval(expression).toString();
+    display.innerText = result;
+    justCalculated = true;
+    expression = result;
+  } catch (error) {
+    display.innerText = "Invalid expression";
+    justCalculated = true;
+    expression = 0;
+  }
 }
 
 function handleInput(value) {
@@ -121,5 +76,34 @@ function handleInput(value) {
       expression += value;
       display.innerText = expression;
     }
+  }
+}
+
+function deleteLastCharacter(char) {
+  if (char === "Backspace") {
+    expression = expression.slice(0, -1);
+    display.innerText = expression;
+
+    if (display.innerText === "") {
+      display.innerText = 0;
+    }
+  }
+
+  if (char === "DEL") {
+    expression = expression.slice(0, -1);
+    display.innerText = expression;
+
+    if (display.innerText === "") {
+      display.innerText = 0;
+    }
+    return;
+  }
+}
+
+function clearExpression(char) {
+  if (char === "AC") {
+    expression = "";
+    display.innerText = 0;
+    return;
   }
 }
