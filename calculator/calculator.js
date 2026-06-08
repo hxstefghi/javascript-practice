@@ -36,15 +36,15 @@ window.addEventListener("keydown", (event) => {
 function displayResult() {
   let result = "";
 
-  if (expression.includes("/")) {
-    result = eval(expression).toFixed(2);
-    display.innerText = result;
-    justCalculated = true;
-    expression = result;
-    return;
-  }
-
   try {
+    if (expression.includes("/")) {
+      result = eval(expression).toFixed(2);
+      display.innerText = result;
+      justCalculated = true;
+      expression = result;
+      return;
+    }
+
     result = eval(expression).toString();
     display.innerText = result;
     justCalculated = true;
@@ -52,7 +52,7 @@ function displayResult() {
   } catch (error) {
     display.innerText = "Invalid expression";
     justCalculated = true;
-    expression = 0;
+    expression = "0";
   }
 }
 
@@ -80,23 +80,13 @@ function handleInput(value) {
 }
 
 function deleteLastCharacter(char) {
-  if (char === "Backspace") {
+  if (char === "Backspace" || char === "DEL") {
     expression = expression.slice(0, -1);
     display.innerText = expression;
 
     if (display.innerText === "") {
       display.innerText = 0;
     }
-  }
-
-  if (char === "DEL") {
-    expression = expression.slice(0, -1);
-    display.innerText = expression;
-
-    if (display.innerText === "") {
-      display.innerText = 0;
-    }
-    return;
   }
 }
 
