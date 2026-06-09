@@ -7,6 +7,7 @@ let justCalculated = false;
 let numbers = "1234567890";
 let operators = "+-*/";
 
+// event listener for clicking a button
 calcBtn.forEach((btn) => {
   let value = btn.innerText;
   btn.addEventListener("click", () => {
@@ -23,6 +24,7 @@ calcBtn.forEach((btn) => {
   });
 });
 
+// event listener for pressing a keyboard
 window.addEventListener("keydown", (event) => {
   handleInput(event.key);
 
@@ -75,6 +77,8 @@ function handleInput(value) {
     if (validKeys.includes(value)) {
       expression += value;
       display.innerText = expression;
+
+      tokenize(expression);
     }
   }
 }
@@ -85,7 +89,7 @@ function deleteLastCharacter(char) {
     display.innerText = expression;
 
     if (display.innerText === "") {
-      display.innerText = 0;
+      display.innerText = "0";
     }
   }
 }
@@ -93,7 +97,32 @@ function deleteLastCharacter(char) {
 function clearExpression(char) {
   if (char === "AC") {
     expression = "";
-    display.innerText = 0;
+    display.innerText = "0";
     return;
   }
+}
+
+function tokenize(value) {
+  let tokens = [];
+  let currentNumber = "";
+
+  for (let i = 0; i < value.length; i++) {
+    let char = value[i];
+
+    if (numbers.includes(char)) {
+      currentNumber += char;
+    }
+
+    if (operators.includes(char)) {
+      tokens.push(currentNumber);
+      tokens.push(char);
+      currentNumber = "";
+    }
+  }
+
+  if (currentNumber !== "") {
+    tokens.push(currentNumber);
+  }
+
+  console.log(tokens);
 }
