@@ -124,5 +124,48 @@ function tokenize(value) {
     tokens.push(currentNumber);
   }
 
+  // console.log(tokens);
+
+  evaluate(tokens);
+}
+
+function evaluate(tokens) {
   console.log(tokens);
+
+  let result = Number(tokens[0]);
+
+  for (let i = 1; i < tokens.length; i += 2) {
+    let operator = tokens[i];
+    let nextNumber = Number(tokens[i + 1]);
+
+    // console.log(operator, nextNumber);
+
+    if (operator === "*") {
+      let leftNumber = tokens[i - 1];
+      let rightNumber = tokens[i + 1];
+      let res = Number(leftNumber) * Number(rightNumber);
+
+      console.log(Number(leftNumber) * Number(rightNumber));
+      tokens.splice(i - 1, 3, res);
+      console.log(tokens);
+    }
+
+    // if (operator === "+") {
+    //   result = result + nextNumber;
+    // }
+
+    // if (operator === "-") {
+    //   result = result - nextNumber;
+    // }
+
+    // if (operator === "*") {
+    //   result = result * nextNumber;
+    // }
+
+    // if (operator === "/") {
+    //   result = result / nextNumber;
+    // }
+  }
+
+  // console.log(result);
 }
