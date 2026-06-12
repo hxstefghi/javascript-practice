@@ -40,14 +40,22 @@ function displayResult() {
 
   try {
     if (expression.includes("/")) {
-      result = eval(expression).toFixed(2);
+      // result = eval(expression).toFixed(2);
+      let tokens = tokenize(expression);
+      let reduceToken = processMultiplyDivision(tokens);
+      let result = processAddSubtract(reduceToken).toFixed(2).toString();
+
       display.innerText = result;
       justCalculated = true;
       expression = result;
       return;
     }
 
-    result = eval(expression).toString();
+    // result = eval(expression).toString();
+    let tokens = tokenize(expression);
+    let reduceToken = processMultiplyDivision(tokens);
+    let result = processAddSubtract(reduceToken).toString();
+
     display.innerText = result;
     justCalculated = true;
     expression = result;
@@ -126,10 +134,10 @@ function tokenize(value) {
 
   // console.log(tokens);
 
-  evaluate(tokens);
+  return tokens;
 }
 
-function evaluate(tokens) {
+function processMultiplyDivision(tokens) {
   console.log(tokens);
 
   let result = Number(tokens[0]);
@@ -147,6 +155,18 @@ function evaluate(tokens) {
 
       console.log(Number(leftNumber) * Number(rightNumber));
       tokens.splice(i - 1, 3, res);
+      i -= 2;
+      console.log(tokens);
+    }
+
+    if (operator === "/") {
+      let leftNumber = tokens[i - 1];
+      let rightNumber = tokens[i + 1];
+      let res = Number(leftNumber) / Number(rightNumber);
+
+      console.log(res);
+      tokens.splice(i - 1, 3, res);
+      i -= 2;
       console.log(tokens);
     }
 
@@ -166,6 +186,40 @@ function evaluate(tokens) {
     //   result = result / nextNumber;
     // }
   }
+  return tokens;
 
   // console.log(result);
+}
+
+function processAddSubtract(tokens) {
+  console.log(tokens);
+
+  let result = Number(tokens[0]);
+
+  for (let i = 1; i < tokens.length; i += 2) {
+    let operator = tokens[i];
+    let nextNumber = Number(tokens[i + 1]);
+
+    if (operator === "+") {
+      let leftNumber = Number(tokens[i - 1]);
+      let rightNumber = Number(tokens[i + 1]);
+      let res = leftNumber + rightNumber;
+
+      tokens.splice(i - 1, 3, res);
+      i -= 2;
+      console.log(tokens);
+    }
+
+    if (operator === "-") {
+      let leftNumber = Number(tokens[i - 1]);
+      let rightNumber = Number(tokens[i + 1]);
+
+      let res = leftNumber - rightNumber;
+
+      tokens.splice(i - 1, 3, res);
+      i -= 2;
+      console.log(tokens);
+    }
+  }
+  return tokens[0];
 }
